@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Perpustakaan Damar</title>
+
+  <!-- Favicon (opsional, letakkan di root: /favicon.ico) -->
+  <link rel="icon" href="favicon.ico" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles (pindah ke assets/css/) -->
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo">📚 Perpustakaan <span class="accent">Damar</span></div>
+      <nav class="links">
+        <a href="#koleksi">Koleksi</a>
+        <a href="#kategori">Kategori</a>
+        <a href="#tentang">Tentang</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <button id="themeToggle" class="icon-btn" aria-label="Toggle tema" title="Tema">
+        <svg viewBox="0 0 24 24" class="icon"><path d="M21.64 13A9 9 0 1 1 11 2.36 7 7 0 1 0 21.64 13z"/></svg>
+      </button>
+      <button id="openCart" class="icon-btn badge-btn" aria-label="Buka keranjang">
+        <svg viewBox="0 0 24 24" class="icon"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.44A2 2 0 0 0 10 19h8v-2h-7.42a.25.25 0 0 1-.22-.37L11.1 15h5.45a2 2 0 0 0 1.79-1.11l3.58-7.16A1 1 0 0 0 21 5h-14"/></svg>
+        <span id="cartBadge" class="badge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Temukan Buku Favoritmu</h1>
+      <p>Jelajahi ribuan koleksi, simpan favorit, dan mulai membaca lebih banyak hari ini.</p>
+      <div class="searchbar">
+        <input id="searchInput" type="text" placeholder="Cari judul, penulis, atau tag..." aria-label="Pencarian buku" />
+        <button id="clearSearch" class="ghost">Bersihkan</button>
+      </div>
+      <div class="controls">
+        <div class="chips" id="categoryChips"><!-- diisi via JS --></div>
+        <select id="sortSelect" class="select" aria-label="Urutkan buku">
+          <option value="terbaru">Urutkan: Terbaru</option>
+          <option value="populer">Urutkan: Terpopuler</option>
+          <option value="az">Urutkan: A → Z</option>
+        </select>
+      </div>
+      <div class="stats" role="status" aria-live="polite">
+        <div class="stat"><span id="statBuku">0</span><label>Total Buku</label></div>
+        <div class="stat"><span id="statTersedia">0</span><label>Stok Tersedia</label></div>
+        <div class="stat"><span id="statDipinjam">0</span><label>Dipinjam</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KOLEKSI -->
+  <main class="container" id="koleksi">
+    <h2>Koleksi Unggulan</h2>
+    <div id="booksGrid" class="grid"><!-- kartu buku via JS --></div>
+  </main>
+
+  <!-- KATEGORI -->
+  <section class="container" id="kategori">
+    <h2>Jelajah Kategori</h2>
+    <div class="category-grid" id="categoryGrid"><!-- kartu kategori via JS --></div>
+  </section>
+
+  <!-- TENTANG -->
+  <section class="container about" id="tentang">
+    <h2>Tentang Perpustakaan</h2>
+    <p>
+      Perpustakaan Damar adalah platform baca yang memudahkan pencarian koleksi lintas kategori. 
+      Website ini masih bersifat demo (frontend saja). Data favorit & keranjang tersimpan secara lokal di browser Anda.
+    </p>
+    <ul class="features">
+      <li>Pencarian real-time dan filter kategori</li>
+      <li>Favorit & Keranjang Peminjaman</li>
+      <li>Statistik dinamis</li>
+      <li>Dark mode</li>
+    </ul>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© <span id="year"></span> Perpustakaan Damar — Dibuat dengan ❤</p>
+  </footer>
+
+  <!-- DRAWER KERANJANG -->
+  <aside id="cartDrawer" class="drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h3>Keranjang Peminjaman</h3>
+      <button id="closeCart" class="icon-btn" aria-label="Tutup keranjang">
+        <svg viewBox="0 0 24 24" class="icon"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="cartList" class="drawer-body"><!-- item keranjang via JS --></div>
+    <div class="drawer-footer">
+      <div class="sum">
+        <span>Total item</span>
+        <strong id="cartTotal">0</strong>
+      </div>
+      <button id="checkoutBtn" class="primary">Konfirmasi Peminjaman</button>
+    </div>
+  </aside>
+
+  <!-- MODAL BUKU -->
+  <div id="bookModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modalTitle">Detail Buku</h3>
+        <button id="closeModal" class="icon-btn" aria-label="Tutup modal">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="modalBody" class="modal-body"><!-- diisi via JS --></div>
+      <div class="modal-footer">
+        <button id="modalAddCart" class="primary">Tambah ke Keranjang</button>
+        <button id="modalFav" class="ghost">❤ Favorit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Scripts (pindah ke assets/js/) -->
+  <script src="assets/js/app.js" defer></script>
+</body>
+</html>
